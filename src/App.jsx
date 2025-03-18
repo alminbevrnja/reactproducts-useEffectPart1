@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import ListProductsComponent from "./components/ListProductsComponent";
 import SingleProductComponent from "./components/SingleProductComponent";
 //toastify
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import backgroundImg from './assets/background.jpg'
 
 
@@ -19,6 +19,7 @@ function App() {
     .then(res => res.json())
     .then((data) => {setAllProducts(data.products)
       setIsLoading(true)
+      toast.success('Svi proizvodi su učitani')
     }
     );
   }, [])
@@ -27,7 +28,7 @@ function App() {
     
   return (
     <div style={{backgroundImage: `url(${backgroundImg})`}}>
-        
+        <h1 className="text-center text-white font-semibold p-5">All Products</h1>
         <div className="flex gap-[10px] flex-wrap justify-center items-center">   
         {isLoading ? allProducts.map((product) => {
           return <ListProductsComponent key={product.id} product={product}/>
