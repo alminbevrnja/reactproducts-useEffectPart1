@@ -1,42 +1,25 @@
 import { useEffect, useState } from "react"
-import ListProductsComponent from "./components/ListProductsComponent";
-import SingleProductComponent from "./components/SingleProductComponent";
-//toastify
-import { toast, ToastContainer } from 'react-toastify';
-import backgroundImg from './assets/background.jpg'
+import TodoInputComponent from "./components/TodoInputComponent"
+import TodoListComponent from "./components/TodoListComponent"
+import { ToastContainer } from "react-toastify"
+
 
 
 
 function App() {
-  
-  const [isLoading, setIsLoading] = useState(false)
-  const [allProducts, setAllProducts] = useState([])
-  
-  //products from dummyJSON
-
-  useEffect(() => {
-    fetch('https://dummyjson.com/products')
-    .then(res => res.json())
-    .then((data) => {setAllProducts(data.products)
-      setIsLoading(true)
-      toast.success('Svi proizvodi su učitani')
-    }
-    );
-  }, [])
-
-   
+    //save all todo list items (array):
+    const [todoItems, setTodoItems] = useState([])
+    useEffect(() => {
+      console.log(todoItems);
+      
+    }, [todoItems])
     
-  return (
-    <div style={{backgroundImage: `url(${backgroundImg})`}}>
-        <h1 className="text-center text-white font-semibold p-5">All Products</h1>
-        <div className="flex gap-[10px] flex-wrap justify-center items-center">   
-        {isLoading ? allProducts.map((product) => {
-          return <ListProductsComponent key={product.id} product={product}/>
-        }) : <h2 className="text-red-600 text-[50px]">Loading....</h2>}
-          </div> 
-        
-          
-        <ToastContainer/>  
+    return (
+    <div className="container mx-auto flex flex-col items-center justify-center">
+         <h1 className="text-[50px] font-extrabold text-green-400 my-[30px]">TODO APP</h1>
+         <TodoInputComponent todoItems={todoItems} setTodoItems={setTodoItems}/>
+         <TodoListComponent todoItems={todoItems} setTodoItems={setTodoItems}/>
+         <ToastContainer />
     </div>
   )
 }
