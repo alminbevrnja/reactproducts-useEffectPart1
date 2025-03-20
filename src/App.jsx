@@ -1,27 +1,33 @@
-import { useEffect, useState } from "react"
-import TodoInputComponent from "./components/TodoInputComponent"
-import TodoListComponent from "./components/TodoListComponent"
-import { ToastContainer } from "react-toastify"
+import axios from 'axios';
+import { ToastContainer } from 'react-toastify';
+import useFetch from './utils/useFetch';
+import CardComponent from './components/CardComponent';
+import NavbarComponent from './components/NavbarComponent';
 
-
-
+axios.defaults.baseURL = 'https://dummyjson.com';
 
 function App() {
-    //save all todo list items (array):
-    const [todoItems, setTodoItems] = useState([])
-    useEffect(() => {
-      console.log(todoItems);
-      
-    }, [todoItems])
-    
-    return (
-    <div className="container mx-auto flex flex-col items-center justify-center">
-         <h1 className="text-[50px] font-extrabold text-green-400 my-[30px]">TODO APP</h1>
-         <TodoInputComponent todoItems={todoItems} setTodoItems={setTodoItems}/>
-         <TodoListComponent todoItems={todoItems} setTodoItems={setTodoItems}/>
-         <ToastContainer />
-    </div>
-  )
+	const { data, isLoading } = useFetch('category');
+
+	return (
+		<div className='container mx-auto  '>
+			<NavbarComponent />
+
+			<div className='flex flex-wrap gap-3 justify-center items-center mt-10'>
+				{isLoading ? (
+					data.map((product) => {
+						return (
+							<CardComponent key={product.id} product={product} />
+						);
+					})
+				) : (
+					<h1 className='text-red-600 font-bold'>LOADING....</h1>
+				)}
+			</div>
+
+			<ToastContainer />
+		</div>
+	);
 }
 
-export default App
+export default App;
